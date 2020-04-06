@@ -13,6 +13,7 @@ func RedisServerHandler(redisConnection *RedisClient, authClientes *AuthClient) 
 		fmt.Println(string(cmd.Raw))
 		switch strings.ToLower(string(cmd.Args[0])) {
 		default:
+			fmt.Println("ERR unknown command '" + string(cmd.Args[0]) + "'")
 			conn.WriteError("ERR unknown command '" + string(cmd.Args[0]) + "'")
 		case "auth":
 			if len(cmd.Args) != 2 {
