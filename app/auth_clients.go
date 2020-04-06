@@ -12,15 +12,22 @@ type AuthClient struct {
 }
 
 func GetAuthClient() *AuthClient {
-	clients := &AuthClient{
+	authClients := &AuthClient{
 		clients: make(map[string]time.Time),
 	}
 
-	return clients
+	return authClients
 }
 
 func (a *AuthClient) SetClient(ip string, password string) bool {
-	return true
+	if password == a.password {
+		a.mutex.Lock()
+		a.clients[ip] = time.Now()
+		a.mutex.Unlock()
+		return true
+	}
+
+	return false
 }
 
 func (a *AuthClient) VerifyClient(ip string) bool {

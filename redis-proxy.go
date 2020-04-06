@@ -8,7 +8,7 @@ import (
 	"github.com/tidwall/redcon"
 )
 
-var addr = ":6380"
+var addr = ":6379"
 
 var password = "12345"
 

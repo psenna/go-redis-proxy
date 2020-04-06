@@ -2,8 +2,9 @@ package app
 
 import (
 	"fmt"
-	"github.com/go-redis/redis"
 	"os"
+
+	"github.com/go-redis/redis"
 )
 
 type RedisClient struct {
@@ -35,21 +36,13 @@ func getRedisUrlSlave() string {
 func getRedisPasswordMaster() string {
 	passwordMaster := os.Getenv("REDIS_MASTER_PASSWORD")
 
-	if passwordMaster != "" {
-		return passwordMaster
-	}
-
-	return ""
+	return passwordMaster
 }
 
 func getRedisPasswordSlave() string {
 	passwordSlave := os.Getenv("REDIS_SLAVE_PASSWORD")
 
-	if passwordSlave != "" {
-		return passwordSlave
-	}
-
-	return ""
+	return passwordSlave
 }
 
 func (r *RedisClient) NewRedisWrite() {
