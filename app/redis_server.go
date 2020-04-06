@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/tidwall/redcon"
@@ -9,6 +10,7 @@ import (
 func RedisServerHandler(redisConnection *RedisClient, authClientes *AuthClient) func(redcon.Conn, redcon.Command) {
 
 	return func(conn redcon.Conn, cmd redcon.Command) {
+		fmt.Println(string(cmd.Raw))
 		switch strings.ToLower(string(cmd.Args[0])) {
 		default:
 			conn.WriteError("ERR unknown command '" + string(cmd.Args[0]) + "'")

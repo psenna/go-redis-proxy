@@ -54,8 +54,6 @@ func (r *RedisClient) NewRedisWrite() {
 
 	pong, err := r.clientWriter.Ping().Result()
 
-	fmt.Println(pong)
-
 	if err != nil || pong != "PONG" {
 		fmt.Println(err)
 		r.funcionando = false
@@ -73,11 +71,8 @@ func (r *RedisClient) NewRedisReader() {
 
 	pong, err := r.clientReader.Ping().Result()
 
-	fmt.Println(pong)
-
 	if err != nil || pong != "PONG" {
 		fmt.Println(err)
-		fmt.Println(getRedisPasswordSlave())
 		r.funcionando = false
 	}
 
