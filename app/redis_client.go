@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/go-redis/redis"
 )
@@ -83,8 +84,9 @@ func (r RedisClient) GetFuncionando() bool {
 	return r.funcionando
 }
 
-func (r *RedisClient) Write(chave string, valor string) (sucesso bool) {
-	err := r.clientWriter.Set(chave, valor, 0).Err()
+// Write Write a key value in redis and set its expiration in milliseconds (set 0 for no expiration)
+func (r *RedisClient) Write(chave string, valor string, expiration int) (sucesso bool) {
+	err := r.clientWriter.Set(chave, valor, time.Duration(expiration*1000000)).Err()
 	if err != nil {
 		fmt.Println(err)
 		return false

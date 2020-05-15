@@ -2,15 +2,22 @@ package app
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 
 	"github.com/tidwall/redcon"
 )
 
 func RedisServerHandler(redisConnection *RedisClient, authClientes *AuthClient) func(redcon.Conn, redcon.Command) {
-
+	debug := false
+	if os.Getenv("DEBUG") == "true" {
+		debug = true
+	}
 	return func(conn redcon.Conn, cmd redcon.Command) {
-		fmt.Println(string(cmd.Raw))
+		if debug {
+			fmt.Println(string(cmd.Raw))
+		}
 		switch strings.ToLower(string(cmd.Args[0])) {
 		default:
 			conn.WriteError("ERR unknown command '" + string(cmd.Args[0]) + "'")
@@ -35,7 +42,18 @@ func RedisServerHandler(redisConnection *RedisClient, authClientes *AuthClient) 
 				return
 			}
 			// Tratar problema na conexão
-			redisConnection.Write(string(cmd.Args[1]), string(cmd.Args[2]))
+			redisConnection.Write(string(cmd.Args[1]), string(cmd.Args[2]), 0)
+			conn.WriteString("OK")
+
+		case "setex":
+			if len(cmd.Args) != 4 {
+				fmt.Println("ERR wrong number of arguments for '" + string(cmd.Args[0]) + "' command" + string(len(cmd.Args)))
+				conn.WriteError("ERR wrong number of arguments for '" + string(cmd.Args[0]) + "' command")
+				return
+			}
+			// Tratar problema na conexão
+			expiration, _ := strconv.Atoi(string(cmd.Args[2]))
+			redisConnection.Write(string(cmd.Args[1]), string(cmd.Args[3]), expiration*1000)
 			conn.WriteString("OK")
 		case "get":
 			if len(cmd.Args) != 2 {
