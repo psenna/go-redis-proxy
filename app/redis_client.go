@@ -15,7 +15,7 @@ type RedisClient struct {
 }
 
 func getRedisUrlMaster() string {
-	urlMaster := os.Getenv("REDIS_MASTER_URL")
+	urlMaster := os.Getenv("REDIS_PRIMARY_NODE_URL")
 
 	if urlMaster != "" {
 		return urlMaster
@@ -25,7 +25,7 @@ func getRedisUrlMaster() string {
 }
 
 func getRedisUrlSlave() string {
-	urlSlave := os.Getenv("REDIS_SLAVE_URL")
+	urlSlave := os.Getenv("REDIS_REPLICA_NODE_URL")
 
 	if urlSlave != "" {
 		return urlSlave
@@ -35,13 +35,13 @@ func getRedisUrlSlave() string {
 }
 
 func getRedisPasswordMaster() string {
-	passwordMaster := os.Getenv("REDIS_MASTER_PASSWORD")
+	passwordMaster := os.Getenv("REDIS_PRIMARY_NODE_PASSWORD")
 
 	return passwordMaster
 }
 
 func getRedisPasswordSlave() string {
-	passwordSlave := os.Getenv("REDIS_SLAVE_PASSWORD")
+	passwordSlave := os.Getenv("REDIS_REPLICA_NODE_PASSWORD")
 
 	return passwordSlave
 }

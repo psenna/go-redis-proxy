@@ -40,11 +40,11 @@ func checkAuth(string) {
 }
 
 func initVariables() {
-	if os.Getenv("ADDR") != "" {
-		addr = os.Getenv("ADDR")
+	if os.Getenv("SERVER_ADDR") != "" {
+		addr = os.Getenv("SERVER_ADDR")
 	}
 
-	if os.Getenv("PASSWORD") != "" {
-		password = os.Getenv("PASSWORD")
+	if os.Getenv("SERVER_PASSWORD") != "" {
+		password = os.Getenv("SERVER_PASSWORD")
 	}
 }
